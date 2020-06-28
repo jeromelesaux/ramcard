@@ -1,0 +1,216 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww22340\viewh15080\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 \expnd0\expndtw0\kerning0
+Org &A000\
+\
+LD    A,&40\
+CALL  &BC08\
+LD    A,&01\
+CALL  &BC0E\
+LD    A,&01\
+CALL  &BB63\
+LD    BC,&0000\
+CALL  &BC38\
+LD    BC,&0000\
+XOR   A\
+CALL  &BC32\
+LD    BC,&1818\
+LD    A,&01\
+CALL  &BC32\
+LD    BC,&0606\
+LD    A,&03\
+CALL  &BC32\
+CALL  &BBBA\
+LD    A,&03\
+CALL  &BC59\
+LD    DE,&0002\
+LD    HL,&0183\
+CALL  &BBC0\
+LD    A,&03\
+CALL  &BBDE\
+LD    HL,&A100\
+LD    A,(HL)\
+INC   HL\
+OR    A\
+JR    Z,&A04F\
+CALL  &BB5A\
+JR    &A045\
+LD    DE,&0000\
+LD    HL,&0185\
+CALL  &BBC0\
+LD    A,&01\
+CALL  &BBDE\
+LD    HL,&A100\
+LD    A,(HL)\
+INC   HL\
+OR    A\
+JR    Z,&A06A\
+CALL  &BB5A\
+JR    &A060\
+XOR   A\
+CALL  &BC59\
+LD    DE,&0000\
+LD    HL,&013F\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\fs24 \cf2 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 ;Ecran en &4000\
+;Mode 1\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 ;Border noir 
+\f1\fs24 \
+
+\f0\fs32 ;Fond noir 
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 ;Ecriture jaune\
+;Couleur rouge\
+;GRA INITIALISE\
+;Superposition\
+;Place curseur\
+;Couleur rouge\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 ;Message 
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 ;Place curseur\
+;Couleur jaune\
+;En superpos\'e9e\
+;Mode normal\
+;Coordonn\'e9e\
+LD    A,&00\
+LD    (&A100),DE   ;Coordonn\'e9e X\
+LD    (&A102),HL   ;Coordonn\'e9e Y\
+LD    (&A04),A\
+DI\
+LD B,&DF\
+OUT   (C),A\
+EXX\
+LD    A,C\
+AND   &F7\
+OUT   (C),A\
+LD    A,(&C000)\
+OUT   (C),C\
+EXX\
+;No ROM\
+;Plus de systeme\
+;Active No ROM\
+;Gate Array\
+;ROM haute oui\
+;Type de ROM\
+;ROM haute\
+\
+CP    &80\
+JR    Z,&A0B5\
+CPL\
+LD    (&C000),A\
+LD    B,A\
+EXX\
+LD    A,C\
+AND   &F7\
+OUT   (C),A\
+LD    A,(&C000)\
+OUT   (C),C\
+EXX\
+CP    B\
+JR    NZ,&A0B1\
+CPL\
+LD    (&C000),A\
+LD    A,&03\
+JR    &A0B6\
+LD    A,&01\
+JR    &A0B6\
+XOR   A\
+EI\
+CALL  &BBDE\
+LD    DE,(&A100)\
+LD    HL,(&A102)   ;Positionnement\
+CALL  &BBC0\
+LD    A,(&A104)\
+PUSH  AF\
+RRCA\
+RRCA\
+RRCA\
+RRCA\
+CALL  &A0F3\
+POP   AF\
+CALL  &A0F3\
+LD    HL,(&A100)
+\f1\fs24 \
+
+\f0\fs32 ;Rom BASIC=&80\
+;Relire la ROM\
+;Donn\'e9e \'e9crite ?\
+;Donn\'e9e origine\
+;Rouge = RAMCARD\
+;Ecriture en RAM\
+;La RAMCARD est\
+;rest\'e9e activ\'e9e\
+;par le OUT &DF\
+;Jaune = ROM ok\
+;Rien = pas ROM\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 ;Poids fort 
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 ;Poids faible\
+\
+LD    DE,&0028\
+ADD   HL,DE\
+EX    DE,HL\
+LD    HL,(&A102)\
+LD    A,(&A104)\
+INC   A\
+JR    Z,&A06E\
+LD    B,A\
+AND   &0F\
+LD    A,B\
+JR    NZ,&A076\
+LD    DE,&0000\
+LD    BC,&FFF0\
+ADD   HL,BC\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 JR &A076\
+AND &0F\
+ADD A,&30\
+CP &3A\
+JR C,&A0FD\
+ADD A,&07\
+JP &BB5A\
+;X=X+40 
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 ;No ROM + 1\
+;Recommencer\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 ;Fin ligne ? 
+\f1\fs24 \
+
+\f0\fs32 ;X=0 ;Y=Y-16 
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 ;Ligne suivante\
+;Affichage hexa\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 \uc0\u8232 \u8232 DEFM "ROMTEST "\
+DEFM "detection de " \
+DEFM "ROM sur CPC." \
+DEFB 0 
+\f1\fs24 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 \
+}
